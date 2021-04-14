@@ -1,7 +1,9 @@
 package it.polito.tdp.anagrammi.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import it.polito.tdp.anagrammi.DAO.AnagrammaDAO;
 
@@ -20,9 +22,9 @@ public class Model {
 	}
 
 		
-		public List<String> anagrammi(String parola) {
+		public Set<String> anagrammi(String parola) {
 
-			List<String> risultato = new ArrayList<>() ;
+			Set<String> risultato = new HashSet<>() ;
 			permuta("", parola, 0, risultato) ; // LANCIA la ricorsione
 			// cancella dalla lista le parole non valide (leggendo il dizionario)
 			return risultato ;
@@ -33,7 +35,7 @@ public class Model {
 		// lettere = le lettere della parola iniziale che ancora non abbiamo utilizzato
 		//           (=== il sotto-problema che dobbiamo risolvere)
 
-		private void permuta(String parziale, String lettere, int livello, List<String> risultato) {
+		private void permuta(String parziale, String lettere, int livello, Set<String> risultato) {
 			if( lettere.length()==0 ) { // caso terminale 
 				// la soluzione parziale è anche una soluzione completa!!
 
@@ -52,6 +54,7 @@ public class Model {
 							
 							// if (nuovaParziale è un PREFISSO valido di almeno una parola nel dizionario)
 							// "aqz" -> no ; "car" -> si (carro, carrello, carta...)
+							if(anagrammaDao.isCorret(nuovaParziale))
 							permuta(nuovaParziale, nuovaLettere, livello+1, risultato) ;
 							
 							// Backtracking (NON SERVE)

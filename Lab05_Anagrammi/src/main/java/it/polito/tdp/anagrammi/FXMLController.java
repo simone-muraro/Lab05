@@ -3,6 +3,7 @@ package it.polito.tdp.anagrammi;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import it.polito.tdp.anagrammi.model.Model;
 import javafx.event.ActionEvent;
@@ -32,16 +33,23 @@ public class FXMLController {
     void handleCalcolaAnagrammi(ActionEvent event) {
 
     	String immessa=this.txtParolaImm.getText();
-    	List<String> anagrammi ;
+//    	List<String> anagrammi ;
+    	Set<String> anagrammi ;
     	if(immessa.length()<6) {
     	anagrammi=m.anagrammi(immessa);
     
+    	//Stampa in modo brutto
     	//this.txtAnaCorretti.setText(anagrammi.toString());
+    	
+    	//stampa corretta
     	for(String s: anagrammi) {
     		if(m.isCorret(s)) {
-    			if(!this.txtAnaCorretti.getText().contains(s))
-    		this.txtAnaCorretti.appendText(s+"\n");
-    		} else {if(!this.txtAnaSba.getText().contains(s))
+    			//if(!this.txtAnaCorretti.getText().contains(s))     --> se uso il Set non servono
+    			if(this.txtAnaCorretti.getText().equals("")) {
+    				this.txtAnaCorretti.appendText(s);} else {
+    		this.txtAnaCorretti.appendText("\n"+s);
+    		}
+    		} else {//if(!this.txtAnaSba.getText().contains(s))    --> se uso il Set non servono
     			this.txtAnaSba.appendText(s+"\n");}
     		}
     	} else {
